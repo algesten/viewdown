@@ -13,6 +13,7 @@
 		5BDC2FC514DAD1F300B7B22F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5BDC2FC314DAD1F300B7B22F /* Credits.rtf */; };
 		5BDC2FC814DAD1F300B7B22F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BDC2FC714DAD1F300B7B22F /* AppDelegate.m */; };
 		5BDC2FCB14DAD1F300B7B22F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BDC2FC914DAD1F300B7B22F /* MainMenu.xib */; };
+		5BDC2FD214DAD21100B7B22F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BDC2FD114DAD21100B7B22F /* WebKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,14 +22,15 @@
 		5BDC2FB714DAD1F300B7B22F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		5BDC2FB814DAD1F300B7B22F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		5BDC2FB914DAD1F300B7B22F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		5BDC2FBC14DAD1F300B7B22F /* ViewDown-Info.plist */ = {isa = PBXFileReference; path = "ViewDown-Info.plist"; sourceTree = "<group>"; };
+		5BDC2FBC14DAD1F300B7B22F /* ViewDown-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ViewDown-Info.plist"; sourceTree = "<group>"; };
 		5BDC2FBE14DAD1F300B7B22F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5BDC2FC014DAD1F300B7B22F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		5BDC2FC214DAD1F300B7B22F /* ViewDown-Prefix.pch */ = {isa = PBXFileReference; path = "ViewDown-Prefix.pch"; sourceTree = "<group>"; };
+		5BDC2FC214DAD1F300B7B22F /* ViewDown-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ViewDown-Prefix.pch"; sourceTree = "<group>"; };
 		5BDC2FC414DAD1F300B7B22F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		5BDC2FC614DAD1F300B7B22F /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		5BDC2FC614DAD1F300B7B22F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5BDC2FC714DAD1F300B7B22F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		5BDC2FCA14DAD1F300B7B22F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		5BDC2FD114DAD21100B7B22F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BDC2FD214DAD21100B7B22F /* WebKit.framework in Frameworks */,
 				5BDC2FB514DAD1F300B7B22F /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -46,6 +49,7 @@
 		5BDC2FA514DAD1F200B7B22F = {
 			isa = PBXGroup;
 			children = (
+				5BDC2FD114DAD21100B7B22F /* WebKit.framework */,
 				5BDC2FBA14DAD1F300B7B22F /* ViewDown */,
 				5BDC2FB314DAD1F300B7B22F /* Frameworks */,
 				5BDC2FB114DAD1F300B7B22F /* Products */,

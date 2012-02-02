@@ -10,11 +10,28 @@
 
 @implementation AppDelegate
 
-@synthesize window = _window;
+@synthesize window = _window, view, web;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Insert code here to initialize your application
+    
+    NSString *url = @"http://www.google.com/";
+    
+    [web.mainFrame loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
+    
+}
+
+- (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
+{
+
+    NSSize adjusted;
+    adjusted.height = frameSize.height - 22;
+    adjusted.width = frameSize.width;
+    
+    [view setFrameSize:adjusted];
+    [web setFrameSize:adjusted];
+    
+    return frameSize;
 }
 
 @end
