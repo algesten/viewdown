@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "MainView.h"
 
 @implementation AppDelegate
 
@@ -15,9 +16,25 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     
-    NSString *url = @"http://www.google.com/";
+    ((MainView*)view).appDelegate = self;
     
-    [web.mainFrame loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
+    WebPreferences *prefs = [[WebPreferences alloc] init];
+
+    prefs.defaultTextEncodingName = @"utf-8";
+    
+    web.preferences = prefs;
+    
+}
+
+-(void)setCurrent:(NSURL *)url
+{
+
+    [web.mainFrame loadRequest:[NSURLRequest requestWithURL:url]];
+    
+}
+
+-(IBAction)open:(id)sender
+{
     
 }
 

@@ -15,4 +15,8 @@
 @property (strong) IBOutlet NSView *view;
 @property (strong) IBOutlet WebView *web;
 
+-(void)setCurrent:(NSURL*)url;
+
+-(IBAction)open:(id)sender;
+
 @end
