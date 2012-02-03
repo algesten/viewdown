@@ -33,8 +33,21 @@
     
 }
 
--(IBAction)open:(id)sender
+-(void)openDocument:(id)sender
 {
+    
+    NSArray *types = [NSArray arrayWithObject:@"md"];
+    
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    openPanel.allowedFileTypes = types;
+
+    if ([openPanel runModal] == NSOKButton)
+    {
+        NSURL *url = openPanel.URL;
+        
+        [self setCurrent:url];
+        
+    }
     
 }
 
@@ -50,5 +63,6 @@
     
     return frameSize;
 }
+
 
 @end

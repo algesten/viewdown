@@ -17,6 +17,6 @@
 
 -(void)setCurrent:(NSURL*)url;
 
--(IBAction)open:(id)sender;
+-(void)openDocument:(id)sender;
 
 @end
