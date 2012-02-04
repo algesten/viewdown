@@ -93,6 +93,8 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
     {
         [self setCurrent:[NSURL fileURLWithPath:toLaunchWhenFinished]];
         toLaunchWhenFinished = nil;
+    } else {
+        [self setCurrent:NULL];
     }
     
 }
@@ -124,7 +126,9 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
     if (!url) 
     {
         // default to blank
-        [web.mainFrame loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]]];
+        NSBundle *bundle = [NSBundle mainBundle];
+        [web.mainFrame loadRequest:[NSURLRequest 
+                                    requestWithURL:[bundle URLForResource:@"empty" withExtension:@"html"]]];
         
         _window.title =  @"ViewDown";
         
