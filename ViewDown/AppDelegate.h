@@ -26,6 +26,12 @@
     
     NSString* markdownPath;
     
+    NSData *head;
+    NSData *tail;
+    
+    NSPoint savedScrollPosition;
+    BOOL scrollToLast;
+    
 } 
 
 @property (assign) IBOutlet NSWindow *window;
@@ -38,11 +44,12 @@
 
 - (void)initializeEventStream:(NSURL*)file;
 - (void)scanDir:(NSString*)path lastEventId:(uint64_t)eventId;
-- (void)buildMarkdown;
+- (void)buildMarkdown:(BOOL)savePosition;
 
 // control dragging to webview
 -(NSUInteger)webView:(WebView *)webView dragDestinationActionMaskForDraggingInfo:(id<NSDraggingInfo>)draggingInfo;
 - (void)webView:(WebView *)webView willPerformDragDestinationAction:(WebDragDestinationAction)action forDraggingInfo:(id <NSDraggingInfo>)draggingInfo;
+- (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame;
 
 
 @end

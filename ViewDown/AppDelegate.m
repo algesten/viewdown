@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import <CoreFoundation/CoreFoundation.h>
 
+// callback for receiving file system events telling us
+// when a directory has had some changes
 void fsevents_callback(ConstFSEventStreamRef streamRef,
                        void *userData,
                        size_t numEvents,
@@ -39,15 +41,40 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+
+    // ensures we get no white top/bottom
+    web.drawsBackground = NO;
     
+    // our own preferences
     WebPreferences *prefs = [[WebPreferences alloc] init];
 
     prefs.defaultTextEncodingName = @"utf-8";
     
+    // read user stylesheet
+    NSBundle *bundle = [NSBundle mainBundle];    
+    NSURL *userStyles = [bundle URLForResource:@"userstyles" withExtension:@"css"];
+
+    // set user stylesheet and enable it
+    prefs.userStyleSheetLocation = userStyles;
+    prefs.userStyleSheetEnabled = YES;
+    prefs.defaultFontSize = 16;
+    prefs.defaultFixedFontSize = 16;
+    prefs.minimumFontSize  = 16;
+    prefs.minimumLogicalFontSize = 16;
+    
     web.preferences = prefs;
     
+    
+    // html5 head/tail
+    head = [@"<!DOCTYPE html><html><head></head><body><div id=\"wrapper\"><div id=\"content\">" 
+                dataUsingEncoding:NSUTF8StringEncoding];
+    tail = [@"</div></div></body></html>" dataUsingEncoding:NSUTF8StringEncoding];
+
+    
+    // get default file manager
     fm = [NSFileManager defaultManager];
     
+    // attempts to find markdown (XXX more work here!)
     if ([fm fileExistsAtPath:@"/usr/local/bin/markdown"])
     {
         markdownPath = @"/usr/local/bin/markdown";
@@ -61,10 +88,8 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
 
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
-    if (fm) {
-        if (tmpFile) {
-            [fm removeItemAtPath:tmpFile error:nil];
-        }
+    if (fm && tmpFile) {
+        [fm removeItemAtPath:tmpFile error:nil];
     }
 }
 
@@ -75,6 +100,7 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
     monitored = nil;
     lastModified = nil;
     lastBuilt = nil;
+    scrollToLast = NO;
     if (stream) {
         FSEventStreamStop(stream);
         FSEventStreamInvalidate(stream);
@@ -104,7 +130,7 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
         
         [self initializeEventStream:url];
     
-        [self buildMarkdown];
+        [self buildMarkdown:NO];
 
         _window.title = [NSString stringWithFormat:@"ViewDown — %@", monitored];
 
@@ -203,7 +229,7 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
             lastModified = current;
             
             // file has been modified, reload it
-            [self buildMarkdown];
+            [self buildMarkdown:YES];
             
         }
         
@@ -221,7 +247,7 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
         NSURL *fileURL = [NSURL URLFromPasteboard:pboard];
         
         if ([[fileURL path] hasSuffix:@".md"]) {
-            
+
             return WebDragDestinationActionLoad;
             
         }
@@ -265,7 +291,7 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
     
 }
 
-- (void)buildMarkdown
+- (void)buildMarkdown:(BOOL)savePosition
 {
 
     // no change, ignore
@@ -283,28 +309,56 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
         [fm createFileAtPath:tmpFile contents:nil attributes:nil];
     }
 
+    // this task is used to execute the external markdown script
     NSTask *task = [[NSTask alloc] init];
-    
+
+    // the script
     [task setLaunchPath:markdownPath];
     
+    // the argument
     [task setArguments:[NSArray arrayWithObject:monitored]];
     
+    // pipe to capture output
     NSPipe *pipe = [NSPipe pipe];
     [task setStandardOutput:pipe];
 
+    // file handle to output
     NSFileHandle *markdownOut = pipe.fileHandleForReading;
     
+    // launch and wait for it to finish
     [task launch];
     [task waitUntilExit];
     
+    // read data from output
     NSData *data = [markdownOut readDataToEndOfFile];
     
+    // create file handle for (already created) file
     NSFileHandle *tmpFileHandle = [NSFileHandle fileHandleForWritingAtPath:tmpFile];
     
+    // length of data
     CGFloat len = data.length;
     
-    [tmpFileHandle writeData:data];
-    [tmpFileHandle truncateFileAtOffset:(long)len];
+    if (len == 0) {
+        // ensure file is empty
+        [tmpFileHandle truncateFileAtOffset:(long)len];
+    } else {
+
+        [tmpFileHandle writeData:head]; 
+        [tmpFileHandle writeData:data];
+        [tmpFileHandle writeData:tail]; 
+
+    }
+    
+    if (savePosition) {
+        // save scroll position before reloading
+        NSScrollView *scrollView = [[[[web mainFrame] frameView] documentView] enclosingScrollView];
+        NSRect scrollViewBounds = [[scrollView contentView] bounds];
+        savedScrollPosition = scrollViewBounds.origin;  
+        scrollToLast = YES;
+    } else {
+        scrollToLast = NO;
+    }
+    
     [tmpFileHandle closeFile];
 
     [self performSelector:@selector(reloadWebView) withObject:nil afterDelay:0.1];
@@ -318,6 +372,16 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
     [web.mainFrame loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:tmpFile]]];
 }
 
+
+- (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame {
+
+    if (scrollToLast) {
+		NSScrollView *scrollView = [[[[web mainFrame] frameView] documentView] enclosingScrollView];	
+		[[scrollView documentView] scrollPoint:savedScrollPosition];
+        scrollToLast = NO;
+    }
+    
+}
 
 - (NSString *)pathForTemporaryFile
 {
