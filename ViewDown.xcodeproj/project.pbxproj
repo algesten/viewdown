@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5B3174DB14DD6049000774E5 /* userstyles.css in Resources */ = {isa = PBXBuildFile; fileRef = 5B3174DA14DD6049000774E5 /* userstyles.css */; };
+		5B9DD87314DD8DF7001D1EF9 /* md.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5B9DD87214DD8DF7001D1EF9 /* md.icns */; };
 		5BD032A614DD7B1D00E1FB3B /* ViewDown.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5BD032A514DD7B1D00E1FB3B /* ViewDown.icns */; };
 		5BDC2FB514DAD1F300B7B22F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BDC2FB414DAD1F300B7B22F /* Cocoa.framework */; };
 		5BDC2FBF14DAD1F300B7B22F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5BDC2FBD14DAD1F300B7B22F /* InfoPlist.strings */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		5B3174DA14DD6049000774E5 /* userstyles.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = userstyles.css; sourceTree = "<group>"; };
+		5B9DD87214DD8DF7001D1EF9 /* md.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = md.icns; sourceTree = "<group>"; };
 		5BD032A514DD7B1D00E1FB3B /* ViewDown.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ViewDown.icns; sourceTree = "<group>"; };
 		5BDC2FB014DAD1F300B7B22F /* ViewDown.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ViewDown.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BDC2FB414DAD1F300B7B22F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -53,6 +55,7 @@
 		5BDC2FA514DAD1F200B7B22F = {
 			isa = PBXGroup;
 			children = (
+				5B9DD87214DD8DF7001D1EF9 /* md.icns */,
 				5BD032A514DD7B1D00E1FB3B /* ViewDown.icns */,
 				5BDC2FBA14DAD1F300B7B22F /* ViewDown */,
 				5BDC2FB314DAD1F300B7B22F /* Frameworks */,
@@ -167,6 +170,7 @@
 				5BDC2FCB14DAD1F300B7B22F /* MainMenu.xib in Resources */,
 				5B3174DB14DD6049000774E5 /* userstyles.css in Resources */,
 				5BD032A614DD7B1D00E1FB3B /* ViewDown.icns in Resources */,
+				5B9DD87314DD8DF7001D1EF9 /* md.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

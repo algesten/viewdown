@@ -12,6 +12,10 @@
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate>
 {
     @private
+    
+    BOOL finishedStarting;
+    NSString *toLaunchWhenFinished;
+    
     NSFileManager* fm;
     NSMutableArray* pathsToWatch;
     NSNumber* lastEventId;
@@ -32,6 +36,8 @@
     NSPoint savedScrollPosition;
     BOOL scrollToLast;
     
+    
+    
 } 
 
 @property (assign) IBOutlet NSWindow *window;
@@ -40,6 +46,7 @@
 
 -(void)setCurrent:(NSURL*)url;
 
+-(BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename;
 -(void)openDocument:(id)sender;
 
 - (void)initializeEventStream:(NSURL*)file;

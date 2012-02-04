@@ -4,6 +4,29 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>mkdn</string>
+				<string>markdown</string>
+				<string>mdown</string>
+				<string>markdn</string>
+				<string>md</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>md.icns</string>
+			<key>CFBundleTypeMIMETypes</key>
+			<array>
+				<string>text/x-web-markdown</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Markdown Document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+		</dict>
+	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>

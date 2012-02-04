@@ -42,6 +42,9 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 
+    // so we know
+    finishedStarting = YES;
+    
     // ensures we get no white top/bottom
     web.drawsBackground = NO;
     
@@ -82,6 +85,12 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
     
     if (!markdownPath) {
         CFUserNotificationDisplayAlert(0, kCFUserNotificationNoDefaultButtonFlag, NULL, NULL, NULL, CFSTR("Missing markdown"), CFSTR("The markdown script could not be found."), NULL, NULL, NULL, NULL);
+    }
+    
+    if (toLaunchWhenFinished) 
+    {
+        [self setCurrent:[NSURL fileURLWithPath:toLaunchWhenFinished]];
+        toLaunchWhenFinished = nil;
     }
     
 }
@@ -136,6 +145,16 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
 
     }
     
+}
+
+-(BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
+{
+    if (finishedStarting) {
+        [self setCurrent:[NSURL fileURLWithPath:filename]];
+    } else {
+        toLaunchWhenFinished = filename;
+    }
+    return YES;
 }
 
 -(void)openDocument:(id)sender
