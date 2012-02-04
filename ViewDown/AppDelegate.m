@@ -83,10 +83,12 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
         markdownPath = @"/usr/local/bin/markdown";
     }
     
+    // show error dialog to warn if no markdown is found.
     if (!markdownPath) {
         CFUserNotificationDisplayAlert(0, kCFUserNotificationNoDefaultButtonFlag, NULL, NULL, NULL, CFSTR("Missing markdown"), CFSTR("The markdown script could not be found."), NULL, NULL, NULL, NULL);
     }
-    
+
+    // openFile: may sometimes get called before
     if (toLaunchWhenFinished) 
     {
         [self setCurrent:[NSURL fileURLWithPath:toLaunchWhenFinished]];
@@ -95,6 +97,7 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
     
 }
 
+// cleanup of stuff
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
     if (fm && tmpFile) {
@@ -102,6 +105,7 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
     }
 }
 
+// sets the current url we are to work from.
 -(void)setCurrent:(NSURL *)url
 {
 
@@ -357,9 +361,9 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
     // length of data
     CGFloat len = data.length;
     
-    if (len == 0) {
+    if (len < 2) {
         // ensure file is empty
-        [tmpFileHandle truncateFileAtOffset:(long)len];
+        [tmpFileHandle truncateFileAtOffset:0];
     } else {
 
         [tmpFileHandle writeData:head]; 
