@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B3174DB14DD6049000774E5 /* userstyles.css in Resources */ = {isa = PBXBuildFile; fileRef = 5B3174DA14DD6049000774E5 /* userstyles.css */; };
+		5BD032A614DD7B1D00E1FB3B /* ViewDown.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5BD032A514DD7B1D00E1FB3B /* ViewDown.icns */; };
 		5BDC2FB514DAD1F300B7B22F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BDC2FB414DAD1F300B7B22F /* Cocoa.framework */; };
 		5BDC2FBF14DAD1F300B7B22F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5BDC2FBD14DAD1F300B7B22F /* InfoPlist.strings */; };
 		5BDC2FC114DAD1F300B7B22F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BDC2FC014DAD1F300B7B22F /* main.m */; };
@@ -17,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5B3174DA14DD6049000774E5 /* userstyles.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = userstyles.css; sourceTree = "<group>"; };
+		5BD032A514DD7B1D00E1FB3B /* ViewDown.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ViewDown.icns; sourceTree = "<group>"; };
 		5BDC2FB014DAD1F300B7B22F /* ViewDown.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ViewDown.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BDC2FB414DAD1F300B7B22F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		5BDC2FB714DAD1F300B7B22F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -49,6 +53,7 @@
 		5BDC2FA514DAD1F200B7B22F = {
 			isa = PBXGroup;
 			children = (
+				5BD032A514DD7B1D00E1FB3B /* ViewDown.icns */,
 				5BDC2FBA14DAD1F300B7B22F /* ViewDown */,
 				5BDC2FB314DAD1F300B7B22F /* Frameworks */,
 				5BDC2FB114DAD1F300B7B22F /* Products */,
@@ -88,6 +93,7 @@
 			children = (
 				5BDC2FC614DAD1F300B7B22F /* AppDelegate.h */,
 				5BDC2FC714DAD1F300B7B22F /* AppDelegate.m */,
+				5B3174DA14DD6049000774E5 /* userstyles.css */,
 				5BDC2FC914DAD1F300B7B22F /* MainMenu.xib */,
 				5BDC2FBB14DAD1F300B7B22F /* Supporting Files */,
 			);
@@ -159,6 +165,8 @@
 				5BDC2FBF14DAD1F300B7B22F /* InfoPlist.strings in Resources */,
 				5BDC2FC514DAD1F300B7B22F /* Credits.rtf in Resources */,
 				5BDC2FCB14DAD1F300B7B22F /* MainMenu.xib in Resources */,
+				5B3174DB14DD6049000774E5 /* userstyles.css in Resources */,
+				5BD032A614DD7B1D00E1FB3B /* ViewDown.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
