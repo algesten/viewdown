@@ -7,7 +7,28 @@
 //
 
 #import "AppDelegate.h"
-#import "MainView.h"
+
+void fsevents_callback(ConstFSEventStreamRef streamRef,
+                       void *userData,
+                       size_t numEvents,
+                       void *eventPaths,
+                       const FSEventStreamEventFlags eventFlags[],
+                       const FSEventStreamEventId eventIds[])
+{
+    AppDelegate *ac = (__bridge AppDelegate *)userData;
+    size_t i;
+    for(i=0; i < numEvents; i++){
+        
+        [ac scanDir:[(__bridge NSArray *)eventPaths objectAtIndex:i] lastEventId:eventIds[i]];
+        
+    }
+    
+}
+
+@interface AppDelegate ()
+-(NSDate*)lastModifiedForMonitored;
+@end
+
 
 @implementation AppDelegate
 
@@ -15,8 +36,6 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    
-    ((MainView*)view).appDelegate = self;
     
     WebPreferences *prefs = [[WebPreferences alloc] init];
 
@@ -29,7 +48,39 @@
 -(void)setCurrent:(NSURL *)url
 {
 
-    [web.mainFrame loadRequest:[NSURLRequest requestWithURL:url]];
+    // reset all
+    monitored = nil;
+    lastModified = nil;
+    lastBuilt = nil;
+    if (stream) {
+        FSEventStreamStop(stream);
+        FSEventStreamInvalidate(stream);
+        FSEventStreamRelease(stream);
+        stream = NULL;
+    }
+
+    if (!url) 
+    {
+        // default to blank
+        [web.mainFrame loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]]];
+    }
+    else
+    {
+
+        monitored = [url path];
+        lastModified = [self lastModifiedForMonitored];
+    
+        if (!lastModified) {
+            // file has disappeared
+            [self setCurrent:NULL];
+            return;
+        }
+        
+        [self initializeEventStream:url];
+    
+        [self buildMarkdown];
+
+    }
     
 }
 
@@ -64,5 +115,149 @@
     return frameSize;
 }
 
+- (void)initializeEventStream:(NSURL*)file
+{
+
+    if (!file.isFileURL) {
+        abort();
+    }
+
+    // pick out directory where the file resides
+    NSMutableArray *path = [NSMutableArray arrayWithArray:file.pathComponents];
+    [path removeLastObject];
+    
+    if (!pathsToWatch) {
+        pathsToWatch = [NSMutableArray array];
+    }
+
+    // restart from 0 to get all changes
+    lastEventId = [NSNumber numberWithInt:0];
+
+    [pathsToWatch removeAllObjects];
+    [pathsToWatch addObject:[path componentsJoinedByString:@"/"]];
+    
+    void *appPointer = (__bridge void *)self;
+
+    FSEventStreamContext context = {0, appPointer, NULL, NULL, NULL};
+    NSTimeInterval latency = 1.0;
+
+	stream = FSEventStreamCreate(NULL,
+	                             &fsevents_callback,
+	                             &context,
+	                             (__bridge CFArrayRef) pathsToWatch,
+	                             [lastEventId unsignedLongLongValue],
+	                             (CFAbsoluteTime) latency,
+	                             kFSEventStreamCreateFlagUseCFTypes 
+                                 );
+    
+	FSEventStreamScheduleWithRunLoop(stream, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+	FSEventStreamStart(stream);
+
+}
+
+- (void)scanDir:(NSString*)path lastEventId:(uint64_t)eventId
+{
+
+    lastEventId = [NSNumber numberWithUnsignedLongLong:eventId];
+
+    if ([monitored hasPrefix:path]) {
+        
+        NSDate *current = [self lastModifiedForMonitored];
+        
+        if (!current) {
+            // file has disappeared stop monitoring
+            [self setCurrent:NULL];
+            return;
+        }
+            
+        if ([lastModified laterDate:current] == current) {
+            
+            lastModified = current;
+            
+            // file has been modified, reload it
+            [self buildMarkdown];
+            
+        }
+        
+    }
+    
+}
+
+-(NSUInteger)webView:(WebView *)webView dragDestinationActionMaskForDraggingInfo:(id<NSDraggingInfo>)draggingInfo
+{
+    
+    NSPasteboard *pboard = [draggingInfo draggingPasteboard];
+    
+    if ( [[pboard types] containsObject:NSURLPboardType] ) {
+        
+        NSURL *fileURL = [NSURL URLFromPasteboard:pboard];
+        
+        if ([[fileURL path] hasSuffix:@".md"]) {
+            
+            return WebDragDestinationActionLoad;
+            
+        }
+        
+    }
+
+    return WebDragDestinationActionNone;
+    
+}
+
+- (void)webView:(WebView *)webView willPerformDragDestinationAction:(WebDragDestinationAction)action forDraggingInfo:(id <NSDraggingInfo>)draggingInfo
+{
+
+    NSPasteboard *pboard = [draggingInfo draggingPasteboard];
+    
+    if ( [[pboard types] containsObject:NSURLPboardType] ) {
+        
+        NSURL *fileURL = [NSURL URLFromPasteboard:pboard];
+        
+        if ([[fileURL path] hasSuffix:@".md"]) {
+
+            [self setCurrent:fileURL];
+            
+        }
+        
+    }
+    
+}
+
+-(NSDate*)lastModifiedForMonitored
+{
+    if (!fm) {
+        fm = [NSFileManager defaultManager];
+    }
+
+    // no file, then blank
+    if (![fm fileExistsAtPath:monitored]) {
+        return NULL;
+    }
+    
+    NSDictionary *attr = [fm attributesOfItemAtPath:monitored error:nil];
+    
+    return [attr valueForKey:NSFileModificationDate];
+    
+}
+
+- (void)buildMarkdown
+{
+
+    // no change, ignore
+    if (lastBuilt && [lastBuilt laterDate:lastModified] == lastBuilt) {
+        return;
+    }
+    
+    lastBuilt = lastModified;
+    
+    NSLog(@"Build and display: %@", monitored);
+
+    
+//    [web.mainFrame loadRequest:[NSURLRequest requestWithURL:url]];
+    
+}
+
 
 @end
+
+

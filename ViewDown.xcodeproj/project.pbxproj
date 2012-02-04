@@ -14,7 +14,6 @@
 		5BDC2FC814DAD1F300B7B22F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BDC2FC714DAD1F300B7B22F /* AppDelegate.m */; };
 		5BDC2FCB14DAD1F300B7B22F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BDC2FC914DAD1F300B7B22F /* MainMenu.xib */; };
 		5BDC2FD214DAD21100B7B22F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BDC2FD114DAD21100B7B22F /* WebKit.framework */; };
-		5BDC2FD814DB6F0D00B7B22F /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BDC2FD714DB6F0D00B7B22F /* MainView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,8 +31,6 @@
 		5BDC2FC714DAD1F300B7B22F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		5BDC2FCA14DAD1F300B7B22F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		5BDC2FD114DAD21100B7B22F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		5BDC2FD614DB6F0D00B7B22F /* MainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainView.h; sourceTree = "<group>"; };
-		5BDC2FD714DB6F0D00B7B22F /* MainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,8 +88,6 @@
 			children = (
 				5BDC2FC614DAD1F300B7B22F /* AppDelegate.h */,
 				5BDC2FC714DAD1F300B7B22F /* AppDelegate.m */,
-				5BDC2FD614DB6F0D00B7B22F /* MainView.h */,
-				5BDC2FD714DB6F0D00B7B22F /* MainView.m */,
 				5BDC2FC914DAD1F300B7B22F /* MainMenu.xib */,
 				5BDC2FBB14DAD1F300B7B22F /* Supporting Files */,
 			);
@@ -176,7 +171,6 @@
 			files = (
 				5BDC2FC114DAD1F300B7B22F /* main.m in Sources */,
 				5BDC2FC814DAD1F300B7B22F /* AppDelegate.m in Sources */,
-				5BDC2FD814DB6F0D00B7B22F /* MainView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,7 +222,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -249,7 +243,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -298,6 +292,7 @@
 				5BDC2FD014DAD1F300B7B22F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
