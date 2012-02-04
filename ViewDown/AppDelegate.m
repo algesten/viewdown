@@ -361,21 +361,14 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
     
     // create file handle for (already created) file
     NSFileHandle *tmpFileHandle = [NSFileHandle fileHandleForWritingAtPath:tmpFile];
-    
-    // length of data
-    CGFloat len = data.length;
-    
-    if (len < 2) {
-        // ensure file is empty
-        [tmpFileHandle truncateFileAtOffset:0];
-    } else {
 
-        [tmpFileHandle writeData:head]; 
-        [tmpFileHandle writeData:data];
-        [tmpFileHandle writeData:tail]; 
-
-    }
+    // empty file
+    [tmpFileHandle truncateFileAtOffset:0];
     
+    [tmpFileHandle writeData:head]; 
+    [tmpFileHandle writeData:data];
+    [tmpFileHandle writeData:tail]; 
+
     if (savePosition) {
         // save scroll position before reloading
         NSScrollView *scrollView = [[[[web mainFrame] frameView] documentView] enclosingScrollView];
