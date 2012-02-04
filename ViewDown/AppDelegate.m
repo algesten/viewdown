@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import <CoreFoundation/CoreFoundation.h>
 
 void fsevents_callback(ConstFSEventStreamRef streamRef,
                        void *userData,
@@ -27,6 +28,8 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
 
 @interface AppDelegate ()
 -(NSDate*)lastModifiedForMonitored;
+-(NSString*)pathForTemporaryFile;
+-(void)reloadWebView;
 @end
 
 
@@ -43,6 +46,26 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
     
     web.preferences = prefs;
     
+    fm = [NSFileManager defaultManager];
+    
+    if ([fm fileExistsAtPath:@"/usr/local/bin/markdown"])
+    {
+        markdownPath = @"/usr/local/bin/markdown";
+    }
+    
+    if (!markdownPath) {
+        CFUserNotificationDisplayAlert(0, kCFUserNotificationNoDefaultButtonFlag, NULL, NULL, NULL, CFSTR("Missing markdown"), CFSTR("The markdown script could not be found."), NULL, NULL, NULL, NULL);
+    }
+    
+}
+
+- (void)applicationWillTerminate:(NSNotification *)notification
+{
+    if (fm) {
+        if (tmpFile) {
+            [fm removeItemAtPath:tmpFile error:nil];
+        }
+    }
 }
 
 -(void)setCurrent:(NSURL *)url
@@ -63,6 +86,9 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
     {
         // default to blank
         [web.mainFrame loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]]];
+        
+        _window.title =  @"ViewDown";
+        
     }
     else
     {
@@ -79,6 +105,8 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
         [self initializeEventStream:url];
     
         [self buildMarkdown];
+
+        _window.title = [NSString stringWithFormat:@"ViewDown — %@", monitored];
 
     }
     
@@ -139,7 +167,7 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
     void *appPointer = (__bridge void *)self;
 
     FSEventStreamContext context = {0, appPointer, NULL, NULL, NULL};
-    NSTimeInterval latency = 1.0;
+    NSTimeInterval latency = 0.1;
 
 	stream = FSEventStreamCreate(NULL,
 	                             &fsevents_callback,
@@ -225,9 +253,6 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
 
 -(NSDate*)lastModifiedForMonitored
 {
-    if (!fm) {
-        fm = [NSFileManager defaultManager];
-    }
 
     // no file, then blank
     if (![fm fileExistsAtPath:monitored]) {
@@ -249,14 +274,70 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
     }
     
     lastBuilt = lastModified;
-    
-    NSLog(@"Build and display: %@", monitored);
 
+    if (!tmpFile) {
+        tmpFile = [self pathForTemporaryFile];
+    }
+
+    if (![fm fileExistsAtPath:tmpFile]) {
+        [fm createFileAtPath:tmpFile contents:nil attributes:nil];
+    }
+
+    NSTask *task = [[NSTask alloc] init];
     
-//    [web.mainFrame loadRequest:[NSURLRequest requestWithURL:url]];
+    [task setLaunchPath:markdownPath];
+    
+    [task setArguments:[NSArray arrayWithObject:monitored]];
+    
+    NSPipe *pipe = [NSPipe pipe];
+    [task setStandardOutput:pipe];
+
+    NSFileHandle *markdownOut = pipe.fileHandleForReading;
+    
+    [task launch];
+    [task waitUntilExit];
+    
+    NSData *data = [markdownOut readDataToEndOfFile];
+    
+    NSFileHandle *tmpFileHandle = [NSFileHandle fileHandleForWritingAtPath:tmpFile];
+    
+    CGFloat len = data.length;
+    
+    [tmpFileHandle writeData:data];
+    [tmpFileHandle truncateFileAtOffset:(long)len];
+    [tmpFileHandle closeFile];
+
+    [self performSelector:@selector(reloadWebView) withObject:nil afterDelay:0.1];
     
 }
 
+
+-(void)reloadWebView
+{
+    [web.mainFrame stopLoading];
+    [web.mainFrame loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:tmpFile]]];
+}
+
+
+- (NSString *)pathForTemporaryFile
+{
+
+    CFUUIDRef uuid = CFUUIDCreate(NULL);
+    assert(uuid != NULL);
+    
+    CFStringRef uuidStr = CFUUIDCreateString(NULL, uuid);
+    assert(uuidStr != NULL);
+    
+    NSString *name = [NSString stringWithFormat:@"%@-viewdown.html",uuidStr];
+    
+    NSString *result = [NSTemporaryDirectory() stringByAppendingPathComponent:name];
+    assert(result != nil);
+    
+    CFRelease(uuidStr);
+    CFRelease(uuid);
+    
+    return result;
+}
 
 @end
 

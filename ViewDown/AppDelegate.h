@@ -22,6 +22,10 @@
     
     NSDate *lastBuilt;
     
+    NSString* tmpFile;
+    
+    NSString* markdownPath;
+    
 } 
 
 @property (assign) IBOutlet NSWindow *window;
