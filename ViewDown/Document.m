@@ -44,22 +44,18 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
 
 #pragma mark ----- Lifecycle -----
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-    }
-    return self;
-}
-
 - (NSString *)windowNibName
 {
     return @"Document";
 }
 
-- (void)windowControllerDidLoadNib:(NSWindowController *)aController
+-(void)windowControllerDidLoadNib:(NSWindowController *)windowController
 {
-    [super windowControllerDidLoadNib:aController];
+    [super windowControllerDidLoadNib:windowController];
+}
+
+-(void)awakeFromNib
+{
     
     // ensures we get no white top/bottom
     web.drawsBackground = NO;
@@ -424,15 +420,11 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
     return nil;
 }
 
-- (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError
+- (BOOL)readFromURL:(NSURL *)url ofType:(NSString *)type
 {
-    /*
-    Insert code here to read your document from the given data of the specified type. If outError != NULL, ensure that you create and set an appropriate error when returning NO.
-    You can also choose to override -readFromFileWrapper:ofType:error: or -readFromURL:ofType:error: instead.
-    If you override either of these, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
-    */
-    NSException *exception = [NSException exceptionWithName:@"UnimplementedMethod" reason:[NSString stringWithFormat:@"%@ is unimplemented", NSStringFromSelector(_cmd)] userInfo:nil];
-    @throw exception;
+    
+    [self setCurrent:url];
+    
     return YES;
 }
 

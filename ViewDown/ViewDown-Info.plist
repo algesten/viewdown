@@ -9,6 +9,10 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>mkdn</string>
+				<string>markdown</string>
+				<string>mdown</string>
+				<string>markdn</string>
 				<string>md</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
@@ -18,11 +22,7 @@
 				<string>text/x-web-markdown</string>
 			</array>
 			<key>CFBundleTypeName</key>
-			<string>DocumentType</string>
-			<key>CFBundleTypeOSTypes</key>
-			<array>
-				<string>????</string>
-			</array>
+			<string>Markdown Document</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
