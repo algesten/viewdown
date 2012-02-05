@@ -13,6 +13,9 @@
 {
     @private
 
+    BOOL started;
+    NSURL *urlToStartWith;
+    
     NSFileManager* fm;
     NSMutableArray* pathsToWatch;
     NSNumber* lastEventId;

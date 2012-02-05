@@ -103,8 +103,8 @@
 				5B6C29C714DE25B300D75D88 /* empty.html */,
 				5B6C29AE14DE24AB00D75D88 /* MainMenu.xib */,
 				5B6C29BE14DE254E00D75D88 /* md.icns */,
-				5B6C29C814DE25B300D75D88 /* userstyles.css */,
 				5B6C299D14DE24AB00D75D88 /* Supporting Files */,
+				5B6C29C814DE25B300D75D88 /* userstyles.css */,
 			);
 			path = ViewDown;
 			sourceTree = "<group>";

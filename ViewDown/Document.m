@@ -85,7 +85,6 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
             dataUsingEncoding:NSUTF8StringEncoding];
     tail = [@"</div></div></body></html>" dataUsingEncoding:NSUTF8StringEncoding];
     
-    
     // get default file manager
     fm = [NSFileManager defaultManager];
     
@@ -99,8 +98,15 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
     if (!markdownPath) {
         CFUserNotificationDisplayAlert(0, kCFUserNotificationNoDefaultButtonFlag, NULL, NULL, NULL, CFSTR("Missing markdown"), CFSTR("The markdown script could not be found."), NULL, NULL, NULL, NULL);
     }
+
+    // now we're running
+    started = YES;
     
-    [self setCurrent:NULL];
+    if (urlToStartWith) {
+        [self setCurrent:urlToStartWith];
+    } else {
+        [self setCurrent:NULL];
+    }
     
 }
 
@@ -141,6 +147,11 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
         stream = NULL;
     }
     
+    if (url && !started) {
+        urlToStartWith = url;
+        return;
+    }
+    
     if (!url) 
     {
         // default to blank
@@ -148,13 +159,14 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
         [web.mainFrame loadRequest:[NSURLRequest 
                                     requestWithURL:[bundle URLForResource:@"empty" withExtension:@"html"]]];
         
-//        _window.title =  @"ViewDown";
-        
     }
     else
     {
         
         monitored = [url path];
+        
+        NSLog(@"%@", monitored);
+        
         lastModified = [self lastModifiedForMonitored];
         
         if (!lastModified) {
@@ -166,8 +178,6 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
         [self initializeEventStream:url];
         
         [self buildMarkdown:NO];
-        
-//        _window.title = [NSString stringWithFormat:@"ViewDown — %@", monitored];
         
     }
     
@@ -407,32 +417,29 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
 }
 
 
-#pragma mark ----- NSDocument saving/reading -----
+#pragma mark ----- NSDocument reading/printing -----
 
-- (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
-{
-    /*
-     Insert code here to write your document to data of the specified type. If outError != NULL, ensure that you create and set an appropriate error when returning nil.
-    You can also choose to override -fileWrapperOfType:error:, -writeToURL:ofType:error:, or -writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
-    */
-    NSException *exception = [NSException exceptionWithName:@"UnimplementedMethod" reason:[NSString stringWithFormat:@"%@ is unimplemented", NSStringFromSelector(_cmd)] userInfo:nil];
-    @throw exception;
-    return nil;
-}
-
-- (BOOL)readFromURL:(NSURL *)url ofType:(NSString *)type
-{
+- (BOOL)readFromURL:(NSURL *)url ofType:(NSString *)type error:(NSError **)outError {
     
     [self setCurrent:url];
     
     return YES;
 }
 
+-(NSPrintOperation *)printOperationWithSettings:(NSDictionary *)printSettings error:(NSError *__autoreleasing *)outError
+{
+    
+    NSView *view = [[[web mainFrame] frameView] documentView];
+    
+    NSPrintOperation *po = [NSPrintOperation printOperationWithView:view];
+    
+    return po;
+    
+}
+
 + (BOOL)autosavesInPlace
 {
     return YES;
 }
-
-
 
 @end

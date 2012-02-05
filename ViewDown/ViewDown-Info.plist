@@ -16,7 +16,7 @@
 				<string>md</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>md</string>
+			<string>md.icns</string>
 			<key>CFBundleTypeMIMETypes</key>
 			<array>
 				<string>text/x-web-markdown</string>
@@ -25,10 +25,6 @@
 			<string>Markdown Document</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>markdown</string>
-			</array>
 			<key>NSDocumentClass</key>
 			<string>Document</string>
 		</dict>
@@ -48,7 +44,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
-	<string>????</string>
+	<string>VWDN</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSApplicationCategoryType</key>
