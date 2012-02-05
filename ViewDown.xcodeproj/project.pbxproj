@@ -15,7 +15,6 @@
 		5B6C29AD14DE24AB00D75D88 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B6C29AB14DE24AB00D75D88 /* Document.xib */; };
 		5B6C29B014DE24AB00D75D88 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B6C29AE14DE24AB00D75D88 /* MainMenu.xib */; };
 		5B6C29C114DE254E00D75D88 /* md.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5B6C29BE14DE254E00D75D88 /* md.icns */; };
-		5B6C29C214DE254E00D75D88 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5B6C29BF14DE254E00D75D88 /* README.md */; };
 		5B6C29C614DE256100D75D88 /* ViewDown.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5B6C29C514DE256100D75D88 /* ViewDown.icns */; };
 		5B6C29C914DE25B300D75D88 /* empty.html in Resources */ = {isa = PBXBuildFile; fileRef = 5B6C29C714DE25B300D75D88 /* empty.html */; };
 		5B6C29CA14DE25B300D75D88 /* userstyles.css in Resources */ = {isa = PBXBuildFile; fileRef = 5B6C29C814DE25B300D75D88 /* userstyles.css */; };
@@ -38,7 +37,6 @@
 		5B6C29AC14DE24AB00D75D88 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Document.xib; sourceTree = "<group>"; };
 		5B6C29AF14DE24AB00D75D88 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		5B6C29BE14DE254E00D75D88 /* md.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = md.icns; sourceTree = "<group>"; };
-		5B6C29BF14DE254E00D75D88 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		5B6C29C514DE256100D75D88 /* ViewDown.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ViewDown.icns; sourceTree = "<group>"; };
 		5B6C29C714DE25B300D75D88 /* empty.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = empty.html; path = "../../viewdown-/ViewDown/empty.html"; sourceTree = "<group>"; };
 		5B6C29C814DE25B300D75D88 /* userstyles.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = userstyles.css; path = "../../viewdown-/ViewDown/userstyles.css"; sourceTree = "<group>"; };
@@ -105,9 +103,8 @@
 				5B6C29C714DE25B300D75D88 /* empty.html */,
 				5B6C29AE14DE24AB00D75D88 /* MainMenu.xib */,
 				5B6C29BE14DE254E00D75D88 /* md.icns */,
-				5B6C29BF14DE254E00D75D88 /* README.md */,
-				5B6C299D14DE24AB00D75D88 /* Supporting Files */,
 				5B6C29C814DE25B300D75D88 /* userstyles.css */,
+				5B6C299D14DE24AB00D75D88 /* Supporting Files */,
 			);
 			path = ViewDown;
 			sourceTree = "<group>";
@@ -179,7 +176,6 @@
 				5B6C29AD14DE24AB00D75D88 /* Document.xib in Resources */,
 				5B6C29B014DE24AB00D75D88 /* MainMenu.xib in Resources */,
 				5B6C29C114DE254E00D75D88 /* md.icns in Resources */,
-				5B6C29C214DE254E00D75D88 /* README.md in Resources */,
 				5B6C29C614DE256100D75D88 /* ViewDown.icns in Resources */,
 				5B6C29C914DE25B300D75D88 /* empty.html in Resources */,
 				5B6C29CA14DE25B300D75D88 /* userstyles.css in Resources */,
@@ -254,7 +250,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -275,7 +271,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
