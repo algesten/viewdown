@@ -1,5 +1,5 @@
 //
-//  main.m
+//  Document.h
 //  ViewDown
 //
 //  Created by martin on 05/02/2012.
@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-int main(int argc, char *argv[])
-{
-    return NSApplicationMain(argc, (const char **)argv);
-}
+@interface Document : NSDocument
+
+@end

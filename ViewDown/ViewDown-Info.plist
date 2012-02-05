@@ -9,32 +9,26 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>mkdn</string>
-				<string>markdown</string>
-				<string>mdown</string>
-				<string>markdn</string>
 				<string>md</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>md.icns</string>
-			<key>CFBundleTypeMIMETypes</key>
-			<array>
-				<string>text/x-web-markdown</string>
-			</array>
+			<string></string>
 			<key>CFBundleTypeName</key>
-			<string>Markdown Document</string>
+			<string>DocumentType</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>????</string>
+			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>markdown</string>
-			</array>
+			<key>NSDocumentClass</key>
+			<string>Document</string>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
-	<string>ViewDown.icns</string>
+	<string></string>
 	<key>CFBundleIdentifier</key>
 	<string>foodev.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -54,7 +48,7 @@
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2012 Object &amp; Funktion AB. All rights reserved.</string>
+	<string>Copyright © 2012 __MyCompanyName__. All rights reserved.</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

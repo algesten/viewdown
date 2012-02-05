@@ -13,7 +13,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5BDC2FAF14DAD1F300B7B22F"
+               BlueprintIdentifier = "5B6C299114DE24AB00D75D88"
                BuildableName = "ViewDown.app"
                BlueprintName = "ViewDown"
                ReferencedContainer = "container:ViewDown.xcodeproj">
@@ -31,7 +31,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5BDC2FAF14DAD1F300B7B22F"
+            BlueprintIdentifier = "5B6C299114DE24AB00D75D88"
             BuildableName = "ViewDown.app"
             BlueprintName = "ViewDown"
             ReferencedContainer = "container:ViewDown.xcodeproj">
@@ -49,7 +49,7 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5BDC2FAF14DAD1F300B7B22F"
+            BlueprintIdentifier = "5B6C299114DE24AB00D75D88"
             BuildableName = "ViewDown.app"
             BlueprintName = "ViewDown"
             ReferencedContainer = "container:ViewDown.xcodeproj">
@@ -67,7 +67,7 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5BDC2FAF14DAD1F300B7B22F"
+            BlueprintIdentifier = "5B6C299114DE24AB00D75D88"
             BuildableName = "ViewDown.app"
             BlueprintName = "ViewDown"
             ReferencedContainer = "container:ViewDown.xcodeproj">
