@@ -171,7 +171,8 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
         
         if (!lastModified) {
             // file has disappeared
-            [self setCurrent:NULL];
+            CFUserNotificationDisplayAlert(0, kCFUserNotificationNoDefaultButtonFlag, NULL, NULL, NULL, CFSTR("File not found"), CFSTR("The file could not be opened."), NULL, NULL, NULL, NULL);
+            [self close];
             return;
         }
         
@@ -310,8 +311,13 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
         NSDate *current = [self lastModifiedForMonitored];
         
         if (!current) {
+
             // file has disappeared stop monitoring
             [self setCurrent:NULL];
+
+            // close window
+            [self close];
+
             return;
         }
         
