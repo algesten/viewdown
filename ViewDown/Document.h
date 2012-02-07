@@ -13,8 +13,11 @@
 {
     @private
 
+    NSUserDefaults *userDefaults;
+    
     BOOL started;
     NSURL *urlToStartWith;
+    BOOL didFirstMain;
     
     NSFileManager* fm;
     NSMutableArray* pathsToWatch;

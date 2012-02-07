@@ -34,9 +34,15 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
 -(void)initializeEventStream:(NSURL*)file;
 -(void)buildMarkdown:(BOOL)savePosition;
 -(void)reloadWebView;
+-(void)updateWebSize:(NSSize)frameSize;
 -(NSDate*)lastModifiedForMonitored;
 -(NSString*)pathForTemporaryFile;
 @end
+
+NSString* const VDDefaultWidth = @"VDDefaultWidth";
+NSString* const VDDefaultHeight = @"VDDefaultHeight";
+NSString* const VDDefaultX = @"VDDefaultX";
+NSString* const VDDefaultY = @"VDDefaultY";
 
 @implementation Document
 
@@ -99,6 +105,9 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
         CFUserNotificationDisplayAlert(0, kCFUserNotificationNoDefaultButtonFlag, NULL, NULL, NULL, CFSTR("Missing markdown"), CFSTR("The markdown script could not be found."), NULL, NULL, NULL, NULL);
     }
 
+    // set up defaults
+    userDefaults = [NSUserDefaults standardUserDefaults];
+    
     // now we're running
     started = YES;
     
@@ -110,6 +119,42 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
     
 }
 
+
+-(void)windowDidBecomeMain:(NSNotification *)notification
+{
+
+    if (didFirstMain) {
+        return;
+    }
+    
+    NSInteger defaultWidth = [userDefaults integerForKey:VDDefaultWidth];
+    NSInteger defaultHeight = [userDefaults integerForKey:VDDefaultHeight];
+    NSInteger defaultX = [userDefaults integerForKey:VDDefaultX];
+    NSInteger defaultY = [userDefaults integerForKey:VDDefaultY];
+    
+    if (!defaultWidth || !defaultHeight) {
+        defaultWidth = 680;
+        defaultHeight = 500;
+        defaultX = 50;
+        defaultY = 214;
+        [userDefaults setInteger:defaultWidth forKey:VDDefaultWidth];
+        [userDefaults setInteger:defaultHeight forKey:VDDefaultHeight];
+        [userDefaults setInteger:defaultX forKey:VDDefaultX];
+        [userDefaults setInteger:defaultY forKey:VDDefaultY];
+        [userDefaults synchronize];
+    }
+    
+    CGRect theSize = CGRectMake(defaultX, defaultY, defaultWidth, defaultHeight);
+
+    [self.windowForSheet setFrame:theSize display:YES animate:YES];
+
+    [self updateWebSize:theSize.size];
+    
+    didFirstMain = YES;
+    
+}
+
+
 -(void)windowWillClose:(NSNotification *)notification
 {
     if (fm && tmpFile) {
@@ -119,14 +164,43 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
 
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
 {
+
+    // change the nested web container
+    [self updateWebSize:frameSize];
     
+    return frameSize;
+}
+
+-(void)updateWebSize:(NSSize)frameSize
+{
     NSSize adjusted;
     adjusted.height = frameSize.height - 22;
     adjusted.width = frameSize.width;
     
     [web setFrameSize:adjusted];
+}
+
+-(void)windowDidMove:(NSNotification *)notification
+{
+    CGRect rect = self.windowForSheet.frame;
+
+    [userDefaults setInteger:rect.origin.x forKey:VDDefaultX];
+    [userDefaults setInteger:rect.origin.y forKey:VDDefaultY];
+
+    [userDefaults synchronize];
+
+}
+
+-(void)windowDidResize:(NSNotification *)notification
+{
+
+    CGRect rect = self.windowForSheet.frame;
     
-    return frameSize;
+    [userDefaults setInteger:rect.size.width forKey:VDDefaultWidth];
+    [userDefaults setInteger:rect.size.height forKey:VDDefaultHeight];
+    
+    [userDefaults synchronize];
+    
 }
 
 #pragma mark ----- Private methods -----
