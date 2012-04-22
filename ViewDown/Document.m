@@ -381,21 +381,28 @@ NSString* const VDDefaultY = @"VDDefaultY";
     
     // launch and wait for it to finish
     [task launch];
-    [task waitUntilExit];
-    
-    // read data from output
-    NSData *data = [markdownOut readDataToEndOfFile];
-    
+
     // create file handle for (already created) file
     NSFileHandle *tmpFileHandle = [NSFileHandle fileHandleForWritingAtPath:tmpFile];
-    
+
     // empty file
     [tmpFileHandle truncateFileAtOffset:0];
-    
+
+    // write html header.
     [tmpFileHandle writeData:head]; 
-    [tmpFileHandle writeData:data];
+
+    // write body from markdown output
+    NSData *inData;
+    while ((inData = [markdownOut availableData]) && [inData length]) {
+        [tmpFileHandle writeData:inData];
+    }
+
+    // write html tail
     [tmpFileHandle writeData:tail]; 
-    
+
+    // close file
+    [tmpFileHandle closeFile];
+
     if (savePosition) {
         // save scroll position before reloading
         NSScrollView *scrollView = [[[[web mainFrame] frameView] documentView] enclosingScrollView];
@@ -405,8 +412,6 @@ NSString* const VDDefaultY = @"VDDefaultY";
     } else {
         scrollToLast = NO;
     }
-    
-    [tmpFileHandle closeFile];
     
     [self performSelector:@selector(reloadWebView) withObject:nil afterDelay:0.1];
     
@@ -441,7 +446,7 @@ NSString* const VDDefaultY = @"VDDefaultY";
             return;
         }
         
-        if ([lastModified laterDate:current] == current) {
+        if (lastModified != current && [lastModified laterDate:current] == current) {
             
             lastModified = current;
             
