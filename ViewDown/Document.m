@@ -3,7 +3,7 @@
 //  ViewDown
 //
 //  Created by martin on 05/02/2012.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Object & Funktion AB. All rights reserved.
 //
 
 #import "Document.h"
@@ -94,11 +94,14 @@ NSString* const VDDefaultY = @"VDDefaultY";
     
     // get default file manager
     fm = [NSFileManager defaultManager];
+
+    // find local markdown script
+    NSString *path = [bundle pathForResource:@"markdown" ofType:nil];
     
     // attempts to find markdown (XXX more work here!)
-    if ([fm fileExistsAtPath:@"/usr/local/bin/markdown"])
+    if ([fm fileExistsAtPath:path])
     {
-        markdownPath = @"/usr/local/bin/markdown";
+        markdownPath = path;
     }
     
     // show error dialog to warn if no markdown is found.
@@ -283,8 +286,6 @@ NSString* const VDDefaultY = @"VDDefaultY";
     {
         
         monitored = [url path];
-        
-        NSLog(@"%@", monitored);
         
         lastModified = [self lastModifiedForMonitored];
         
