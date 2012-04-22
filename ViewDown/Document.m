@@ -146,12 +146,17 @@ NSString* const VDDefaultY = @"VDDefaultY";
     
     CGRect theSize = CGRectMake(defaultX, defaultY, defaultWidth, defaultHeight);
 
+    // ensure the window state is automatically stored
+    [self.windowForSheet setRestorable:YES];
+
+    // set size
     [self.windowForSheet setFrame:theSize display:YES animate:YES];
 
+    // update the nested view
     [self updateWebSize:theSize.size];
     
     didFirstMain = YES;
-    
+ 
 }
 
 
@@ -202,6 +207,39 @@ NSString* const VDDefaultY = @"VDDefaultY";
     [userDefaults synchronize];
     
 }
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+
+    [super encodeRestorableStateWithCoder:coder];
+    
+    [coder encodeObject:monitored];
+    
+}
+
+
+- (void)restoreStateWithCoder:(NSCoder *)coder
+{
+
+    monitored = [coder decodeObject];
+    
+    if (!monitored || ![self lastModifiedForMonitored]) {
+        // file is not there, so don't restore the state
+        [self close];
+        return;
+    }
+    
+    NSURL *tmp = [NSURL fileURLWithPath:monitored];
+ 
+    // just to ensure setUrl goest through
+    monitored = nil;
+    
+    [self setCurrent:tmp];
+
+    [super restoreStateWithCoder:coder];
+    
+}
+
 
 #pragma mark ----- Private methods -----
 
@@ -412,6 +450,11 @@ NSString* const VDDefaultY = @"VDDefaultY";
 
 -(NSDate*)lastModifiedForMonitored
 {
+    
+    // get default file manager
+    if (!fm) {
+        fm = [NSFileManager defaultManager];
+    }
     
     // no file, then blank
     if (![fm fileExistsAtPath:monitored]) {
