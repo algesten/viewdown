@@ -147,7 +147,7 @@
 		5B6C298914DE24AB00D75D88 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = 5B6C298C14DE24AB00D75D88 /* Build configuration list for PBXProject "ViewDown" */;
 			compatibilityVersion = "Xcode 3.2";
