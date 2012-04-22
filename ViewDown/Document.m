@@ -37,6 +37,7 @@ void fsevents_callback(ConstFSEventStreamRef streamRef,
 -(void)updateWebSize:(NSSize)frameSize;
 -(NSDate*)lastModifiedForMonitored;
 -(NSString*)pathForTemporaryFile;
+-(void)reset;
 @end
 
 NSString* const VDDefaultWidth = @"VDDefaultWidth";
@@ -165,6 +166,8 @@ NSString* const VDDefaultY = @"VDDefaultY";
     if (fm && tmpFile) {
         [fm removeItemAtPath:tmpFile error:nil];
     }
+    // free stream
+    [self reset];
 }
 
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
@@ -243,10 +246,8 @@ NSString* const VDDefaultY = @"VDDefaultY";
 
 #pragma mark ----- Private methods -----
 
-// sets the current url we are to work from.
--(void)setCurrent:(NSURL *)url
+-(void)reset
 {
-    
     // reset all
     monitored = nil;
     lastModified = nil;
@@ -255,9 +256,15 @@ NSString* const VDDefaultY = @"VDDefaultY";
     if (stream) {
         FSEventStreamStop(stream);
         FSEventStreamInvalidate(stream);
-        FSEventStreamRelease(stream);
         stream = NULL;
     }
+}
+
+// sets the current url we are to work from.
+-(void)setCurrent:(NSURL *)url
+{
+
+    [self reset];
     
     if (url && !started) {
         urlToStartWith = url;
