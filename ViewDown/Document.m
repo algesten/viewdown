@@ -3,7 +3,7 @@
 //  ViewDown
 //
 //  Created by martin on 05/02/2012.
-//  Copyright (c) 2012 Object & Funktion AB. All rights reserved.
+//  Copyright (c) 2012 Objekt & Funktion AB. All rights reserved.
 //
 
 #import "Document.h"
