@@ -52,6 +52,8 @@
 -(void)webView:(WebView *)webView willPerformDragDestinationAction:(WebDragDestinationAction)action forDraggingInfo:(id <NSDraggingInfo>)draggingInfo;
 
 -(void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame;
+
+-(void)webView:(WebView *)webView decidePolicyForNavigationAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id<WebPolicyDecisionListener>)listener;
 /////////////////////////////////////////////////
 
 @end

@@ -121,6 +121,8 @@ NSString* const VDDefaultY = @"VDDefaultY";
         [self setCurrent:NULL];
     }
     
+    [web setPolicyDelegate:self];
+
 }
 
 
@@ -571,6 +573,19 @@ NSString* const VDDefaultY = @"VDDefaultY";
     
     return po;
     
+}
+
+- (void)webView:(WebView *)sender decidePolicyForNavigationAction:(NSDictionary *)actionInformation
+    request:(NSURLRequest *)request frame:(WebFrame *)frame
+    decisionListener:(id <WebPolicyDecisionListener>)listener
+{
+    NSURL *url = [request URL];
+    if(url.isFileURL)
+        [listener use];
+    else{
+        [listener ignore];
+        [[NSWorkspace sharedWorkspace] openURL:url];
+    }
 }
 
 + (BOOL)autosavesInPlace
